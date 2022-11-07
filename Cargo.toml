@@ -1,0 +1,20 @@
+[workspace]
+resolver = "2"
+members = ["crates/chocolate", "examples/*"]
+
+[profile.release]
+# lto = true # VERY slightly smaller wasm
+# opt-level = 's' # 10-20% smaller wasm compared to `opt-level = 3`
+# opt-level = 1 # very slow and big wasm. Don't do this.
+opt-level = "s" # fast and small wasm, basically same as `opt-level = 's'`
+# opt-level = 3 # unecessarily large wasm for no performance gain
+debug = false # include debug symbols, useful when profiling wasm
+lto = true
+
+[profile.dev]
+opt-level = 1 # Make debug builds run faster
+debug = true  # include debug symbols, useful when profiling wasm
+
+# Optimize all dependencies even in debug builds (does not affect workspace packages):
+[profile.dev.package."*"]
+opt-level = 2
